@@ -39,6 +39,7 @@ def main():
 
             # ignore noise (if area LT 500 no box)
             if (x_max - x_min) * (y_max - y_min) > 500:
+                # draw tracking rectangle
                 cv2.rectangle(
                     frame,
                     (x_min, y_min), # top left
@@ -46,6 +47,19 @@ def main():
                     (0,255,0), # colour (BGR)
                     2 # thickness
                 )
+                
+                # draw dot in center
+                center_x = (x_min + x_max) // 2
+                center_y = (y_min + y_max) // 2
+
+                cv2.circle(
+                    frame,
+                    (center_x, center_y), # center of the box
+                    5, # radius
+                    (0, 0, 255), # red
+                    -1 # filled circle
+                )
+
 
 
         # display frames
