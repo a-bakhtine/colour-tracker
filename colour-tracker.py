@@ -27,6 +27,27 @@ def main():
         # keep only blue parts of OG frame
         blue_only = cv2.bitwise_and(frame, frame, mask=mask)
 
+        # make a box around the blue area
+        # coords of all pixels in mask
+        ys, xs = np.where(mask > 0)
+
+        if len(xs) > 0 and len(ys) > 0:
+            # find min and max
+            x_min, x_max = xs.min(), xs.max()
+            y_min, y_max = ys.min(), ys.max()
+
+
+            # ignore noise (if area LT 500 no box)
+            if (x_max - x_min) * (y_max - y_min) > 500:
+                cv2.rectangle(
+                    frame,
+                    (x_min, y_min), # top left
+                    (x_max, y_max), # bottom right
+                    (0,255,0), # colour (BGR)
+                    2 # thickness
+                )
+
+
         # display frames
         cv2.imshow('Webcam feed', frame)
         cv2.imshow("Blue feed", blue_only)
